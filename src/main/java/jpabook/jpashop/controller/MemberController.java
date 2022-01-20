@@ -2,6 +2,8 @@ package jpabook.jpashop.controller;
 
 import jpabook.jpashop.domain.Address;
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.domain.item.Item;
+import jpabook.jpashop.service.ItemService;
 import jpabook.jpashop.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,14 @@ import java.util.List;
 public class MemberController {
 
     private final MemberService memberService;
+    private final ItemService itemService;
+
+    @GetMapping("/members")
+    public String memberlist(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
@@ -42,10 +52,10 @@ public class MemberController {
         return "redirect:/";
     }
 
-    @GetMapping("/members")
+    @GetMapping("/items")
     public String list(Model model) {
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
-        return "members/memberList";
+        List<Item> items = itemService.findItems();
+        model.addAttribute("items", items);
+        return "items/itemList";
     }
 }
